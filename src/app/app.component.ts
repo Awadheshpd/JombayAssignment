@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import {Observable} from 'rxjs';
 import {CaseService} from './caseservice';
 import {AuthenticationHelper} from './app.authentication';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers:[CaseService, AuthenticationHelper]
+  providers: [CaseService, AuthenticationHelper]
 })
 export class AppComponent {
   title = 'app';
+  caseStudies: any;
 
   constructor(private caseService: CaseService, private authService: AuthenticationHelper) {
     this.getAccessToken();
@@ -22,19 +22,19 @@ export class AppComponent {
   }
 
   getAccessTokenSuccess(data) {
-    console.log('data.access_token', data.access_token);
     this.authService.setToken(data.access_token);
-    setTimeout(this.getCaseStudies(), 0);
+    setTimeout(this.getCaseStudies(data.access_token), 0);
   }
 
-  getCaseStudies(){
-    this.caseService.getCaseStudies().subscribe(data => this.getAccessTokenSuccess(data),
+  getCaseStudies(token){
+    this.caseService.getCaseStudies().subscribe(
+      data => this.getCaseStudiesSuccess(data),
       error => {
-      console.log('errro',error);
       });
   }
 
   getCaseStudiesSuccess(data) {
     console.log('data case', data);
+    this.caseStudies = data;
   }
 }

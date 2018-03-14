@@ -1,0 +1,11 @@
+<ngx-carousel
+  [inputs]="carouselBanner"
+  [moveToSlide]="1"
+  (onMove)="onmoveFn($event)">
+
+  <ngx-item *ngFor="let question of questions" NgxCarouselItem class="bannerStyle">
+    <div class="question" [innerHTML]="question.body"></div>
+  </ngx-item>
+  <button NgxCarouselPrev class='leftRs'>&lt;</button>
+  <button NgxCarouselNext class='rightRs'>&gt;</button>
+</ngx-carousel>
